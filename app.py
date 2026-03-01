@@ -1,4 +1,24 @@
 import streamlit as st
+def check_password():
+    def password_entered():
+        if st.session_state["password"] == st.secrets["APP_PASSWORD"]:
+            st.session_state["password_correct"] = True
+            del st.session_state["password"]
+        else:
+            st.session_state["password_correct"] = False
+
+    if "password_correct" not in st.session_state:
+        st.text_input("社内パスワードを入力してください", type="password", key="password", on_change=password_entered)
+        return False
+    elif not st.session_state["password_correct"]:
+        st.text_input("社内パスワードを入力してください", type="password", key="password", on_change=password_entered)
+        st.error("パスワードが違います")
+        return False
+    else:
+        return True
+
+if not check_password():
+    st.stop()
 import google.generativeai as pal_genai
 from docx import Document
 import io, os, re, time, tempfile
