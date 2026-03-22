@@ -386,8 +386,8 @@ if st.session_state.status_text.startswith("解析開始：") and st.session_sta
                     tmp_path = tmp.name
                 tmp_paths.append(tmp_path)
 
-                audio_data = pal_genai.upload_file(path=tmp_path)
-
+                audio_data = pal_genai.upload_file(path=tmp_path, mime_type="audio/mp4")
+                
                 while audio_data.state.name == "PROCESSING":
                     time.sleep(3)
                     audio_data = pal_genai.get_file(audio_data.name)
